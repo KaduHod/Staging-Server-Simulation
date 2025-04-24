@@ -32,8 +32,9 @@ RUN chown -R deployer:www-data /var/www/html/meu-site
 RUN echo "deployer ALL=(root) NOPASSWD: /usr/sbin/nginx" >> /etc/sudoers && \
     echo "deployer ALL=(root) NOPASSWD: /bin/systemctl restart nginx" >> /etc/sudoers && \
     echo "deployer ALL=(root) NOPASSWD: /bin/systemctl reload nginx" >> /etc/sudoers
+RUN usermod -aG www-data deployer
 
-COPY nginx/* /etc/nginx/sites-available/
+COPY nginx/* /etc/nginx/sites-available/default
 
 EXPOSE 8080
 
