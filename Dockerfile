@@ -20,12 +20,14 @@ RUN mkdir -p /run/sshd && \
 
 RUN sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin no/' /etc/ssh/sshd_config && \
     sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
-
+RUN mkdir -p /var/www/html/meu-site
 RUN mkdir -p /run/nginx && \
     chown -R deployer:www-data /run/nginx && \
     chown -R deployer:www-data /var/lib/nginx && \
     chown -R deployer:www-data /var/log/nginx && \
-    chmod 775 -R /run/nginx /var/lib/nginx /var/log/nginx
+    chmod 775 -R /run/nginx /var/lib/nginx /var/log/nginx /var/www/html/meu-site
+
+RUN chown -R deployer:www-data /var/www/html/meu-site
 
 RUN echo "deployer ALL=(root) NOPASSWD: /usr/sbin/nginx" >> /etc/sudoers && \
     echo "deployer ALL=(root) NOPASSWD: /bin/systemctl restart nginx" >> /etc/sudoers && \
