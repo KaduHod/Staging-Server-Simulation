@@ -5,7 +5,9 @@ RUN apt-get update \
     openssh-server \
     openssh-client \
     sudo \
-    nginx
+    nginx \
+    unzip \
+    vim
 
 RUN useradd -m -s /bin/bash deployer && \
     echo "deployer:123456" | chpasswd && \
@@ -28,5 +30,7 @@ RUN mkdir -p /run/nginx && \
 RUN echo "deployer ALL=(root) NOPASSWD: /usr/sbin/nginx" >> /etc/sudoers && \
     echo "deployer ALL=(root) NOPASSWD: /bin/systemctl restart nginx" >> /etc/sudoers && \
     echo "deployer ALL=(root) NOPASSWD: /bin/systemctl reload nginx" >> /etc/sudoers
+
+EXPOSE 8080
 
 CMD ["sh", "-c", "mkdir -p /run/sshd && /usr/sbin/sshd -D"]
