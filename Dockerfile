@@ -33,6 +33,8 @@ RUN echo "deployer ALL=(root) NOPASSWD: /usr/sbin/nginx" >> /etc/sudoers && \
     echo "deployer ALL=(root) NOPASSWD: /bin/systemctl restart nginx" >> /etc/sudoers && \
     echo "deployer ALL=(root) NOPASSWD: /bin/systemctl reload nginx" >> /etc/sudoers
 
+COPY nginx/* /etc/nginx/sites-available/
+
 EXPOSE 8080
 
 CMD ["sh", "-c", "mkdir -p /run/sshd && /usr/sbin/sshd -D"]
