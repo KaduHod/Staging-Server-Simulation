@@ -50,6 +50,7 @@ RUN apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugi
 
 # Copy Nginx configuration files
 COPY nginx/* /etc/nginx/sites-available/
+RUN usermod -aG docker deployer
 
 # Create symbolic links for all available sites
 RUN for file in /etc/nginx/sites-available/*; do \
@@ -60,6 +61,7 @@ RUN mkdir -p /home/deployer/.ssh && \
 # Copie sua chave pública para o arquivo authorized_keys
 RUN ls -lah
 COPY id_rsa.pub /home/deployer/.ssh/authorized_keys
+COPY .ssh /home/deployer/.ssh
 
 RUN chmod 600 /home/deployer/.ssh/authorized_keys && \
     chown -R deployer:deployer /home/deployer/.ssh
