@@ -64,6 +64,12 @@ COPY id_rsa.pub /home/deployer/.ssh/authorized_keys
 RUN chmod 600 /home/deployer/.ssh/authorized_keys && \
     chown -R deployer:deployer /home/deployer/.ssh
 
+RUN wget https://go.dev/dl/go1.24.3.linux-amd64.tar.gz
+RUN tar -C /usr/local -xzf go1.24.3.linux-amd64.tar.gz
+RUN export PATH=$PATH:/usr/local/go/bin
+ENV PATH="/usr/local/go/bin:${PATH}"
+RUN echo 'export PATH=$PATH:/usr/local/go/bin' >> /home/deployer/.bashrc
+
 EXPOSE 8080 3000 3001 3002 3003 3004 3005 3006
 
 CMD ["sh", "-c", "mkdir -p /run/sshd && /usr/sbin/sshd -D"]
